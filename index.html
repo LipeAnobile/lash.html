@@ -87,15 +87,6 @@
             box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
         }
 
-        /* Efeito Highlight do Instagram */
-        .insta-highlight-ring {
-            padding: 3px;
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            /* Ajustado para tons dourados da marca */
-            background: linear-gradient(135deg, #e0c5ab 0%, #c5a059 100%); 
-            border-radius: 50%;
-        }
-
         /* Animação Flutuante do WhatsApp */
         .whatsapp-float {
             position: fixed;
@@ -120,11 +111,130 @@
             background-color: #1ebd59;
             transform: scale(1.1);
         }
+        
+        /* Ajuste para mobile do botão flutuante */
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+        }
 
         @keyframes pulse-green {
             0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
             100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        /* --- STYLES DO SLIDER ANTES E DEPOIS --- */
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            /* Altura é controlada via Tailwind classes no HTML para responsividade */
+            overflow: hidden;
+            border-radius: 1rem;
+            cursor: col-resize; 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            touch-action: pan-y; /* Permite scroll vertical mas captura horizontal */
+        }
+
+        /* Imagem de Fundo (Depois) - Ocupa tudo */
+        .image-after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.postimg.cc/8kJzp7N3/af.jpg'); /* Imagem "Depois" */
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Label Depois */
+        .label-after {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #5d4e42;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        /* Imagem de Sobreposição (Antes) - Recortada */
+        .image-before-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%; /* Começa em 50% */
+            height: 100%;
+            overflow: hidden;
+            border-right: 3px solid #fff; /* A linha divisória */
+            z-index: 10;
+            will-change: width; /* Otimização para animação suave */
+        }
+
+        .image-before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; /* Ajustado via JS */
+            height: 100%;
+            background-image: url('https://i.postimg.cc/FzMtzFbj/bf.jpg'); 
+            filter: grayscale(100%) contrast(0.9); 
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Label Antes */
+        .label-before {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #5d4e42;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        /* Alça de Arrastar (Círculo) */
+        .slider-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background-color: #c5a059; /* Gold */
+            border: 3px solid #fff;
+            border-radius: 50%;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            pointer-events: none; 
+            will-change: left;
+        }
+        
+        .slider-handle i {
+            color: white;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -136,7 +246,7 @@
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="#" class="font-serif text-2xl font-bold text-coffee-900 tracking-wide">
+                    <a href="#" class="font-serif text-xl sm:text-2xl font-bold text-coffee-900 tracking-wide">
                         Mikaely <span class="text-gold-500">Santos</span>
                     </a>
                 </div>
@@ -146,7 +256,6 @@
                     <a href="#sobre" class="text-coffee-800 hover:text-gold-500 transition text-sm uppercase tracking-wider font-semibold">Sobre</a>
                     <a href="#servicos" class="text-coffee-800 hover:text-gold-500 transition text-sm uppercase tracking-wider font-semibold">Serviços</a>
                     <a href="#portfolio" class="text-coffee-800 hover:text-gold-500 transition text-sm uppercase tracking-wider font-semibold">Portfólio</a>
-                    <a href="#precos" class="text-coffee-800 hover:text-gold-500 transition text-sm uppercase tracking-wider font-semibold">Tabela</a>
                     <a href="https://wa.me/5519986054842" target="_blank" class="px-6 py-2 border border-gold-500 text-gold-500 rounded-full hover:bg-gold-500 hover:text-white transition font-semibold">
                         Agendar
                     </a>
@@ -154,7 +263,7 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-coffee-900 focus:outline-none">
+                    <button id="mobile-menu-btn" class="text-coffee-900 focus:outline-none p-2">
                         <i class="fas fa-bars text-2xl"></i>
                     </button>
                 </div>
@@ -162,56 +271,58 @@
         </div>
 
         <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="md:hidden hidden bg-nude-50 border-t border-nude-200">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
-                <a href="#sobre" class="block px-3 py-2 text-coffee-900 font-medium hover:bg-nude-200 rounded">Sobre</a>
-                <a href="#servicos" class="block px-3 py-2 text-coffee-900 font-medium hover:bg-nude-200 rounded">Serviços</a>
-                <a href="#portfolio" class="block px-3 py-2 text-coffee-900 font-medium hover:bg-nude-200 rounded">Portfólio</a>
-                <a href="#precos" class="block px-3 py-2 text-coffee-900 font-medium hover:bg-nude-200 rounded">Valores</a>
+        <div id="mobile-menu" class="md:hidden hidden bg-nude-50 border-t border-nude-200 shadow-lg absolute w-full left-0 z-40">
+            <div class="px-4 pt-4 pb-6 space-y-2 text-center">
+                <a href="#sobre" class="block px-3 py-3 text-coffee-900 font-medium hover:bg-nude-200 rounded-lg text-lg">Sobre</a>
+                <a href="#servicos" class="block px-3 py-3 text-coffee-900 font-medium hover:bg-nude-200 rounded-lg text-lg">Serviços</a>
+                <a href="#portfolio" class="block px-3 py-3 text-coffee-900 font-medium hover:bg-nude-200 rounded-lg text-lg">Portfólio</a>
+                <a href="https://wa.me/5519986054842" target="_blank" class="block mt-4 px-6 py-3 bg-gold-500 text-white rounded-full font-bold shadow-md mx-auto w-3/4">
+                    Agendar Horário
+                </a>
             </div>
         </div>
     </nav>
 
     <!-- 1. HERO SECTION -->
-    <section class="relative pt-28 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
-        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-nude-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
-        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-gold-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+    <section class="relative pt-24 pb-16 lg:pt-40 lg:pb-28 overflow-hidden">
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 lg:w-96 lg:h-96 bg-nude-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 lg:w-96 lg:h-96 bg-gold-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
 
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                 <!-- Text Content -->
-                <div data-aos="fade-right" data-aos-duration="1000">
-                    <span class="block text-gold-500 font-bold tracking-widest uppercase text-sm mb-4">Monte Mor · SP</span>
-                    <h1 class="font-serif text-4xl md:text-6xl font-bold text-coffee-900 leading-tight mb-6">
+                <div class="order-2 lg:order-1 text-center lg:text-left" data-aos="fade-right" data-aos-duration="1000">
+                    <span class="block text-gold-500 font-bold tracking-widest uppercase text-xs sm:text-sm mb-4">Monte Mor · SP</span>
+                    <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-coffee-900 leading-tight mb-4 lg:mb-6">
                         Realçando olhares com <span class="text-gold-500 italic">técnica</span> e <span class="text-gold-500 italic">amor</span>.
                     </h1>
-                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    <p class="text-base sm:text-lg text-gray-600 mb-6 lg:mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
                         Especialista em Extensão de Cílios e Design de Sobrancelhas. Transforme sua autoestima e acorde pronta todos os dias.
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="https://wa.me/5519986054842" target="_blank" class="btn-primary text-white text-center px-8 py-4 rounded-full font-bold shadow-lg flex items-center justify-center gap-2">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="https://wa.me/5519986054842" target="_blank" class="btn-primary text-white text-center px-8 py-3 lg:py-4 rounded-full font-bold shadow-lg flex items-center justify-center gap-2 w-full sm:w-auto">
                             <i class="fab fa-whatsapp"></i> Agendar Agora
                         </a>
-                        <a href="#portfolio" class="px-8 py-4 border-2 border-coffee-800 text-coffee-800 rounded-full font-bold hover:bg-coffee-800 hover:text-white transition text-center">
+                        <a href="#portfolio" class="px-8 py-3 lg:py-4 border-2 border-coffee-800 text-coffee-800 rounded-full font-bold hover:bg-coffee-800 hover:text-white transition text-center w-full sm:w-auto">
                             Ver Portfólio
                         </a>
                     </div>
                 </div>
 
                 <!-- Hero Image -->
-                <div class="relative" data-aos="fade-left" data-aos-duration="1000">
-                    <div class="relative rounded-t-[10rem] rounded-b-[3rem] overflow-hidden border-4 border-white shadow-2xl h-[500px] w-full object-cover">
-                        <!-- Placeholder for Mikaely's hero shot or a beautiful lash model -->
+                <div class="order-1 lg:order-2 relative mx-auto w-full max-w-md lg:max-w-full" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="relative rounded-t-[5rem] rounded-b-[2rem] lg:rounded-t-[10rem] lg:rounded-b-[3rem] overflow-hidden border-4 border-white shadow-2xl h-[350px] sm:h-[450px] lg:h-[500px] w-full object-cover">
+                        <!-- Placeholder image -->
                         <img src="https://i.postimg.cc/KjjKBH3f/570820137-17923787262173448-5578864589584783677-n.jpg" alt="Extensão de Cílios Mikaely Santos" class="w-full h-full object-cover">
                     </div>
                     <!-- Floating Card -->
-                    <div class="absolute bottom-10 -left-6 bg-white p-4 rounded-xl shadow-xl flex items-center gap-3 animate-bounce" style="animation-duration: 3s;">
+                    <div class="absolute bottom-6 -left-2 lg:bottom-10 lg:-left-6 bg-white p-3 lg:p-4 rounded-xl shadow-xl flex items-center gap-3 animate-bounce max-w-[180px] lg:max-w-none" style="animation-duration: 3s;">
                         <div class="bg-green-100 p-2 rounded-full text-green-600">
-                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star text-sm lg:text-base"></i>
                         </div>
                         <div>
-                            <p class="font-bold text-sm text-coffee-900">Satisfação Garantida</p>
-                            <p class="text-xs text-gray-500">Atendimento 5 estrelas</p>
+                            <p class="font-bold text-xs lg:text-sm text-coffee-900">Satisfação Garantida</p>
+                            <p class="text-[10px] lg:text-xs text-gray-500">Atendimento 5 estrelas</p>
                         </div>
                     </div>
                 </div>
@@ -220,25 +331,25 @@
     </section>
 
     <!-- 2. SOBRE A MIKAELY -->
-    <section id="sobre" class="py-20 bg-white">
+    <section id="sobre" class="py-16 lg:py-20 bg-white">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row items-center gap-12">
                 <!-- Photo -->
-                <div class="lg:w-1/2 order-2 lg:order-1" data-aos="fade-up">
-                    <div class="relative mx-auto w-3/4 lg:w-full">
-                        <div class="absolute inset-0 bg-gold-200 transform translate-x-4 translate-y-4 rounded-2xl"></div>
-                        <!-- Placeholder representing Mikaely (Curly hair woman) -->
+                <div class="w-full lg:w-1/2 order-1" data-aos="fade-up">
+                    <div class="relative mx-auto w-full max-w-sm lg:max-w-full">
+                        <div class="absolute inset-0 bg-gold-200 transform translate-x-3 translate-y-3 lg:translate-x-4 lg:translate-y-4 rounded-2xl"></div>
+                        <!-- Placeholder -->
                         <img src="https://i.postimg.cc/8zGbdGDL/Sou-lash-designer-e-empreendedora-apaixonada-por-realcar-a-beleza-e-a-autoestima-das-mulheres.jpg" alt="Mikaely Santos" class="relative rounded-2xl shadow-lg w-full object-cover aspect-[3/4]">
                     </div>
                 </div>
 
                 <!-- Content -->
-                <div class="lg:w-1/2 order-1 lg:order-2" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-full lg:w-1/2 order-2" data-aos="fade-up" data-aos-delay="200">
                     <h2 class="font-serif text-3xl md:text-4xl font-bold text-coffee-900 mb-6 relative inline-block">
-                        Quem é a Mikaely Santos?
+                        Quem é a Mikaely?
                         <span class="absolute bottom-1 left-0 w-1/2 h-3 bg-nude-200 -z-10"></span>
                     </h2>
-                    <div class="space-y-4 text-gray-600 leading-relaxed text-lg">
+                    <div class="space-y-4 text-gray-600 leading-relaxed text-base lg:text-lg">
                         <p>
                             Olá! Sou apaixonada pela arte de realçar a beleza natural que existe em cada mulher. Com mais de <strong>4 anos de experiência</strong> no mercado da beleza, me especializei em técnicas avançadas de extensão de cílios e design de sobrancelhas personalizado.
                         </p>
@@ -250,7 +361,7 @@
                         </p>
                     </div>
                     <div class="mt-8">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Signature_sample.svg/1200px-Signature_sample.svg.png" alt="Assinatura" class="h-12 opacity-50">
+                        <img src="https://i.postimg.cc/qq7Sjhw5/ass-mika.png" alt="Assinatura" class="h-10 lg:h-12 opacity-50">
                     </div>
                 </div>
             </div>
@@ -258,96 +369,95 @@
     </section>
 
     <!-- 3. SERVIÇOS PRINCIPAIS -->
-    <section id="servicos" class="py-20 bg-nude-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
-            <span class="text-gold-500 font-bold tracking-widest uppercase text-sm">Especialidades</span>
-            <h2 class="font-serif text-4xl font-bold text-coffee-900 mt-2">Nossos Serviços</h2>
-            <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Técnicas exclusivas para valorizar o seu olhar.</p>
+    <section id="servicos" class="py-16 lg:py-20 bg-nude-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12 lg:mb-16">
+            <span class="text-gold-500 font-bold tracking-widest uppercase text-xs sm:text-sm">Especialidades</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-coffee-900 mt-2">Nossos Serviços</h2>
+            <p class="mt-4 text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">Técnicas exclusivas para valorizar o seu olhar.</p>
         </div>
 
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-            
+            <!-- Cards (Mantidos iguais, o grid já é responsivo) -->
             <!-- Card 1: Cílios -->
-            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 group text-center" data-aos="zoom-in" data-aos-delay="0">
+            <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 group text-center" data-aos="zoom-in" data-aos-delay="0">
                 <div class="inline-block p-1 rounded-full bg-gradient-to-br from-nude-300 to-gold-500 mb-6">
-                    <div class="bg-white p-4 rounded-full h-24 w-24 flex items-center justify-center">
-                        <i class="fas fa-eye text-4xl text-coffee-800"></i>
+                    <div class="bg-white p-4 rounded-full h-20 w-20 lg:h-24 lg:w-24 flex items-center justify-center">
+                        <i class="fas fa-eye text-3xl lg:text-4xl text-coffee-800"></i>
                     </div>
                 </div>
-                <h3 class="font-serif text-2xl font-bold text-coffee-900 mb-4">Extensão de Cílios</h3>
-                <ul class="text-gray-600 space-y-2 mb-6 text-left pl-8 border-l-2 border-nude-200 ml-4">
+                <h3 class="font-serif text-xl lg:text-2xl font-bold text-coffee-900 mb-4">Extensão de Cílios</h3>
+                <ul class="text-gray-600 space-y-2 mb-6 text-left pl-4 lg:pl-8 border-l-2 border-nude-200 ml-2 lg:ml-4 text-sm lg:text-base">
                     <li>• Volume Brasileiro</li>
                     <li>• Volume Egípcio</li>
                     <li>• Volume Híbrido</li>
                     <li>• Efeito Foxy</li>
                     <li>• Manutenção</li>
                 </ul>
-                <a href="https://wa.me/5519986054842?text=Olá, gostaria de saber mais sobre cílios!" class="text-gold-500 font-bold hover:text-coffee-900 transition">Saiba mais →</a>
+                <a href="https://wa.me/5519986054842?text=Olá, gostaria de saber mais sobre cílios!" class="text-gold-500 font-bold hover:text-coffee-900 transition text-sm lg:text-base">Saiba mais →</a>
             </div>
 
             <!-- Card 2: Design Feminino -->
-            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 group text-center relative overflow-hidden" data-aos="zoom-in" data-aos-delay="150">
-                <div class="absolute top-0 left-0 w-full h-2 bg-gold-500"></div> <!-- Destaque -->
+            <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 group text-center relative overflow-hidden" data-aos="zoom-in" data-aos-delay="150">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gold-500"></div>
                 <div class="inline-block p-1 rounded-full bg-gradient-to-br from-nude-300 to-gold-500 mb-6">
-                    <div class="bg-white p-4 rounded-full h-24 w-24 flex items-center justify-center">
-                        <i class="fas fa-female text-4xl text-coffee-800"></i>
+                    <div class="bg-white p-4 rounded-full h-20 w-20 lg:h-24 lg:w-24 flex items-center justify-center">
+                        <i class="fas fa-female text-3xl lg:text-4xl text-coffee-800"></i>
                     </div>
                 </div>
-                <h3 class="font-serif text-2xl font-bold text-coffee-900 mb-4">Design Feminino</h3>
-                <ul class="text-gray-600 space-y-2 mb-6 text-left pl-8 border-l-2 border-nude-200 ml-4">
+                <h3 class="font-serif text-xl lg:text-2xl font-bold text-coffee-900 mb-4">Design Feminino</h3>
+                <ul class="text-gray-600 space-y-2 mb-6 text-left pl-4 lg:pl-8 border-l-2 border-nude-200 ml-2 lg:ml-4 text-sm lg:text-base">
                     <li>• Mapeamento Facial</li>
                     <li>• Geometria & Visagismo</li>
                     <li>• Aplicação de Henna</li>
                     <li>• Spa de Sobrancelhas</li>
                     <li>• Epilação Egípcia</li>
                 </ul>
-                <a href="https://wa.me/5519986054842?text=Olá, gostaria de agendar um design!" class="text-gold-500 font-bold hover:text-coffee-900 transition">Saiba mais →</a>
+                <a href="https://wa.me/5519986054842?text=Olá, gostaria de agendar um design!" class="text-gold-500 font-bold hover:text-coffee-900 transition text-sm lg:text-base">Saiba mais →</a>
             </div>
 
             <!-- Card 3: Design Masculino -->
-            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 group text-center" data-aos="zoom-in" data-aos-delay="300">
+            <div class="bg-white rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 group text-center" data-aos="zoom-in" data-aos-delay="300">
                 <div class="inline-block p-1 rounded-full bg-gradient-to-br from-nude-300 to-gold-500 mb-6">
-                    <div class="bg-white p-4 rounded-full h-24 w-24 flex items-center justify-center">
-                        <i class="fas fa-male text-4xl text-coffee-800"></i>
+                    <div class="bg-white p-4 rounded-full h-20 w-20 lg:h-24 lg:w-24 flex items-center justify-center">
+                        <i class="fas fa-male text-3xl lg:text-4xl text-coffee-800"></i>
                     </div>
                 </div>
-                <h3 class="font-serif text-2xl font-bold text-coffee-900 mb-4">Design Masculino</h3>
-                <ul class="text-gray-600 space-y-2 mb-6 text-left pl-8 border-l-2 border-nude-200 ml-4">
+                <h3 class="font-serif text-xl lg:text-2xl font-bold text-coffee-900 mb-4">Design Masculino</h3>
+                <ul class="text-gray-600 space-y-2 mb-6 text-left pl-4 lg:pl-8 border-l-2 border-nude-200 ml-2 lg:ml-4 text-sm lg:text-base">
                     <li>• Limpeza Estratégica</li>
                     <li>• Ajuste Natural</li>
                     <li>• Sem afinar</li>
                     <li>• Leveza no olhar</li>
                     <li>• Discrição total</li>
                 </ul>
-                <a href="https://wa.me/5519986054842?text=Olá, gostaria de saber sobre design masculino!" class="text-gold-500 font-bold hover:text-coffee-900 transition">Saiba mais →</a>
+                <a href="https://wa.me/5519986054842?text=Olá, gostaria de saber sobre design masculino!" class="text-gold-500 font-bold hover:text-coffee-900 transition text-sm lg:text-base">Saiba mais →</a>
             </div>
-
         </div>
     </section>
 
     <!-- 4. MEU ESTÚDIO -->
-    <section class="py-20 bg-white">
+    <section class="py-16 lg:py-20 bg-white">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="font-serif text-4xl font-bold text-coffee-900">Meu Estúdio</h2>
-                <p class="mt-4 text-gray-600">Um espaço pensado para o seu conforto e segurança.</p>
+            <div class="text-center mb-10 lg:mb-12">
+                <h2 class="font-serif text-3xl lg:text-4xl font-bold text-coffee-900">Meu Estúdio</h2>
+                <p class="mt-4 text-gray-600 text-sm lg:text-base">Um espaço pensado para o seu conforto e segurança.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="lg:col-span-2 lg:row-span-2 relative group overflow-hidden rounded-2xl cursor-pointer h-64 lg:h-auto" data-aos="fade-right">
+                <div class="lg:col-span-2 lg:row-span-2 relative group overflow-hidden rounded-2xl cursor-pointer h-56 md:h-64 lg:h-auto" data-aos="fade-right">
                     <img src="https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?q=80&w=800&auto=format&fit=crop" alt="Maca Confortável" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                     <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition"></div>
                     <span class="absolute bottom-4 left-4 bg-white px-3 py-1 rounded text-xs font-bold tracking-widest uppercase">Maca Ergonômica</span>
                 </div>
-                <div class="relative group overflow-hidden rounded-2xl cursor-pointer h-64" data-aos="fade-down">
+                <div class="relative group overflow-hidden rounded-2xl cursor-pointer h-56 md:h-64" data-aos="fade-down">
                     <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=800&auto=format&fit=crop" alt="Iluminação" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                     <span class="absolute bottom-4 left-4 bg-white px-3 py-1 rounded text-xs font-bold tracking-widest uppercase">Iluminação Perfeita</span>
                 </div>
-                <div class="relative group overflow-hidden rounded-2xl cursor-pointer h-64" data-aos="fade-left">
+                <div class="relative group overflow-hidden rounded-2xl cursor-pointer h-56 md:h-64" data-aos="fade-left">
                     <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=800&auto=format&fit=crop" alt="Produtos" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                     <span class="absolute bottom-4 left-4 bg-white px-3 py-1 rounded text-xs font-bold tracking-widest uppercase">Materiais Premium</span>
                 </div>
-                <div class="lg:col-span-2 relative group overflow-hidden rounded-2xl cursor-pointer h-64" data-aos="fade-up">
+                <div class="lg:col-span-2 relative group overflow-hidden rounded-2xl cursor-pointer h-56 md:h-64" data-aos="fade-up">
                     <img src="https://images.unsplash.com/photo-1521590832169-d95f52d7f86d?q=80&w=800&auto=format&fit=crop" alt="Ambiente" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                     <span class="absolute bottom-4 left-4 bg-white px-3 py-1 rounded text-xs font-bold tracking-widest uppercase">Aconchego</span>
                 </div>
@@ -375,31 +485,31 @@
     </section>
 
     <!-- 5. PORTFÓLIO -->
-    <section id="portfolio" class="py-20 bg-nude-100">
+    <section id="portfolio" class="py-16 lg:py-20 bg-nude-100">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="font-serif text-4xl font-bold text-coffee-900">Resultados Reais</h2>
-                <p class="mt-4 text-gray-600">Confira a transformação no olhar das minhas clientes.</p>
+            <div class="text-center mb-10 lg:mb-12">
+                <h2 class="font-serif text-3xl lg:text-4xl font-bold text-coffee-900">Resultados Reais</h2>
+                <p class="mt-4 text-gray-600 text-sm lg:text-base">Confira a transformação no olhar das minhas clientes.</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Photo 1 -->
-                <div class="group relative h-80 rounded-xl overflow-hidden shadow-lg" data-aos="flip-left">
-                    <img src="https://i.postimg.cc/cL5rx7FP/extensao-volume.webp" alt="Resultado Cílios" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                <div class="group relative h-64 sm:h-80 rounded-xl overflow-hidden shadow-lg" data-aos="flip-left">
+                    <img src="https://images.unsplash.com/photo-1631214524020-7e18db9a8f92?q=80&w=800&auto=format&fit=crop" alt="Resultado Cílios" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
                     <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition duration-300 flex items-end justify-center pb-6">
                         <span class="text-white font-serif text-xl font-bold">Volume Brasileiro</span>
                     </div>
                 </div>
                 <!-- Photo 2 -->
-                <div class="group relative h-80 rounded-xl overflow-hidden shadow-lg" data-aos="flip-left" data-aos-delay="100">
-                    <img src="https://i.postimg.cc/y6vBC1p8/Whats-App-Image-2021-07-27-at-11-13-51-768x768-50559e15-debf-46ab-86bb-8a217a1bf2f1.jpg" alt="Resultado Sobrancelhas" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                <div class="group relative h-64 sm:h-80 rounded-xl overflow-hidden shadow-lg" data-aos="flip-left" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1588510604456-2d113db93964?q=80&w=800&auto=format&fit=crop" alt="Resultado Sobrancelhas" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
                     <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition duration-300 flex items-end justify-center pb-6">
                         <span class="text-white font-serif text-xl font-bold">Design + Henna</span>
                     </div>
                 </div>
                 <!-- Photo 3 -->
-                <div class="group relative h-80 rounded-xl overflow-hidden shadow-lg" data-aos="flip-left" data-aos-delay="200">
-                    <img src="https://i.postimg.cc/vZyp4CNL/992508201438667.jpg" alt="Resultado Foxy" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                <div class="group relative h-64 sm:h-80 rounded-xl overflow-hidden shadow-lg" data-aos="flip-left" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1512413914633-b5043f4041ea?q=80&w=800&auto=format&fit=crop" alt="Resultado Foxy" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
                     <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition duration-300 flex items-end justify-center pb-6">
                         <span class="text-white font-serif text-xl font-bold">Efeito Foxy Eyes</span>
                     </div>
@@ -413,20 +523,48 @@
         </div>
     </section>
 
-    <!-- 6. DEPOIMENTOS -->
-    <section class="py-20 bg-white overflow-hidden">
+    <!-- NEW SECTION: ANTES E DEPOIS INTERATIVO -->
+    <section id="antes-depois" class="py-16 lg:py-20 bg-white">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="font-serif text-4xl font-bold text-coffee-900 text-center mb-16">O que as clientes dizem</h2>
+            <div class="text-center mb-10 lg:mb-12">
+                <h2 class="font-serif text-3xl lg:text-4xl font-bold text-coffee-900">Transformação Real</h2>
+                <p class="mt-4 text-gray-600 text-sm lg:text-base">Arraste a linha para ver o detalhe do antes e depois.</p>
+            </div>
+
+            <!-- Slider Container (Altura Responsiva: h-64 no mobile, h-96 no tablet, h-[500px] desktop) -->
+            <div class="comparison-container max-w-4xl mx-auto h-64 sm:h-96 lg:h-[500px]" id="comparison-slider">
+                <!-- Imagem Background (Depois) -->
+                <div class="image-after"></div>
+                <div class="label-after">Depois</div>
+
+                <!-- Wrapper Imagem Frontal (Antes) - Redimensionável -->
+                <div class="image-before-wrapper" id="before-wrapper">
+                    <div class="image-before"></div>
+                    <div class="label-before">Antes</div>
+                </div>
+
+                <!-- Alça (Handle) -->
+                <div class="slider-handle" id="slider-handle">
+                    <i class="fas fa-arrows-alt-h text-coffee-900"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. DEPOIMENTOS -->
+    <section class="py-16 lg:py-20 bg-white overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-serif text-3xl lg:text-4xl font-bold text-coffee-900 text-center mb-10 lg:mb-16">O que as clientes dizem</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Depoimento 1 -->
-                <div class="bg-nude-50 p-8 rounded-tr-[3rem] rounded-bl-[3rem] relative" data-aos="fade-up">
+                <div class="bg-nude-50 p-6 lg:p-8 rounded-tr-[3rem] rounded-bl-[3rem] relative" data-aos="fade-up">
                     <div class="text-gold-500 text-4xl absolute -top-4 left-8">❝</div>
-                    <p class="text-gray-600 italic mb-6 mt-4">
+                    <p class="text-gray-600 italic mb-6 mt-4 text-sm lg:text-base">
                         "A Mikaely tem mãos de fada! Nunca meus cílios duraram tanto e ficaram tão naturais. O ambiente é super limpo e ela é um amor de pessoa."
                     </p>
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gray-300 rounded-full overflow-hidden">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 bg-gray-300 rounded-full overflow-hidden">
                              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Cliente" class="w-full h-full object-cover">
                         </div>
                         <div>
@@ -437,13 +575,13 @@
                 </div>
 
                 <!-- Depoimento 2 -->
-                <div class="bg-nude-50 p-8 rounded-tr-[3rem] rounded-bl-[3rem] relative" data-aos="fade-up" data-aos-delay="100">
+                <div class="bg-nude-50 p-6 lg:p-8 rounded-tr-[3rem] rounded-bl-[3rem] relative" data-aos="fade-up" data-aos-delay="100">
                     <div class="text-gold-500 text-4xl absolute -top-4 left-8">❝</div>
-                    <p class="text-gray-600 italic mb-6 mt-4">
+                    <p class="text-gray-600 italic mb-6 mt-4 text-sm lg:text-base">
                         "Faço minha sobrancelha com ela há um ano e não troco por nada. O design fica perfeito no meu rosto, sem ficar artificial."
                     </p>
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gray-300 rounded-full overflow-hidden">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 bg-gray-300 rounded-full overflow-hidden">
                              <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Cliente" class="w-full h-full object-cover">
                         </div>
                         <div>
@@ -454,13 +592,13 @@
                 </div>
 
                 <!-- Depoimento 3 -->
-                <div class="bg-nude-50 p-8 rounded-tr-[3rem] rounded-bl-[3rem] relative" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-nude-50 p-6 lg:p-8 rounded-tr-[3rem] rounded-bl-[3rem] relative" data-aos="fade-up" data-aos-delay="200">
                     <div class="text-gold-500 text-4xl absolute -top-4 left-8">❝</div>
-                    <p class="text-gray-600 italic mb-6 mt-4">
+                    <p class="text-gray-600 italic mb-6 mt-4 text-sm lg:text-base">
                         "Atendimento impecável desde o agendamento. Ela explica tudo sobre os cuidados e o resultado final é maravilhoso. Recomendo!"
                     </p>
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gray-300 rounded-full overflow-hidden">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 bg-gray-300 rounded-full overflow-hidden">
                              <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Cliente" class="w-full h-full object-cover">
                         </div>
                         <div>
@@ -474,27 +612,27 @@
     </section>
 
     <!-- 7. COMO FUNCIONA (Processo) -->
-    <section class="py-20 bg-coffee-800 text-nude-50">
+    <section class="py-16 lg:py-20 bg-coffee-800 text-nude-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="font-serif text-3xl font-bold mb-12">Como funciona o atendimento</h2>
+            <h2 class="font-serif text-3xl font-bold mb-10 lg:mb-12">Como funciona o atendimento</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                 <div class="flex flex-col items-center" data-aos="fade-up">
-                    <div class="w-16 h-16 rounded-full border-2 border-gold-500 flex items-center justify-center mb-4 text-gold-500 text-2xl">1</div>
+                    <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-full border-2 border-gold-500 flex items-center justify-center mb-4 text-gold-500 text-xl lg:text-2xl">1</div>
                     <h4 class="font-bold text-lg mb-2">Avaliação</h4>
                     <p class="text-sm text-gray-300">Análise do fio e formato do rosto.</p>
                 </div>
                 <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="100">
-                    <div class="w-16 h-16 rounded-full border-2 border-gold-500 flex items-center justify-center mb-4 text-gold-500 text-2xl">2</div>
+                    <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-full border-2 border-gold-500 flex items-center justify-center mb-4 text-gold-500 text-xl lg:text-2xl">2</div>
                     <h4 class="font-bold text-lg mb-2">Procedimento</h4>
                     <p class="text-sm text-gray-300">Aplicação com técnica e conforto.</p>
                 </div>
                 <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="200">
-                    <div class="w-16 h-16 rounded-full border-2 border-gold-500 flex items-center justify-center mb-4 text-gold-500 text-2xl">3</div>
+                    <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-full border-2 border-gold-500 flex items-center justify-center mb-4 text-gold-500 text-xl lg:text-2xl">3</div>
                     <h4 class="font-bold text-lg mb-2">Finalização</h4>
                     <p class="text-sm text-gray-300">Verificação de simetria e detalhes.</p>
                 </div>
                 <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="300">
-                    <div class="w-16 h-16 rounded-full border-2 border-gold-500 flex items-center justify-center mb-4 text-gold-500 text-2xl">4</div>
+                    <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-full border-2 border-gold-500 flex items-center justify-center mb-4 text-gold-500 text-xl lg:text-2xl">4</div>
                     <h4 class="font-bold text-lg mb-2">Cuidados</h4>
                     <p class="text-sm text-gray-300">Orientação para maior durabilidade.</p>
                 </div>
@@ -502,83 +640,19 @@
         </div>
     </section>
 
-    <!-- 8. TABELA DE PREÇOS -->
-    <section id="precos" class="py-20 bg-nude-50">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="font-serif text-4xl font-bold text-coffee-900 text-center mb-12">Investimento</h2>
-            
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-                <div class="bg-coffee-800 py-4 px-6 flex justify-between text-nude-50 font-bold uppercase tracking-wider text-sm">
-                    <span>Procedimento</span>
-                    <span>Valor</span>
-                </div>
-                
-                <div class="divide-y divide-nude-200">
-                    <!-- Item -->
-                    <div class="p-6 flex justify-between items-center hover:bg-nude-50 transition">
-                        <div>
-                            <h4 class="font-bold text-coffee-900">Volume Brasileiro</h4>
-                            <p class="text-xs text-gray-500">Efeito rímel marcante</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="block font-bold text-lg text-gold-500">R$ 160,00</span>
-                            <a href="https://wa.me/5519986054842?text=Quero agendar Volume Brasileiro" class="text-xs text-coffee-800 underline decoration-gold-500">Agendar</a>
-                        </div>
-                    </div>
-                    <!-- Item -->
-                    <div class="p-6 flex justify-between items-center hover:bg-nude-50 transition">
-                        <div>
-                            <h4 class="font-bold text-coffee-900">Volume Egípcio</h4>
-                            <p class="text-xs text-gray-500">Sofisticação e leveza</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="block font-bold text-lg text-gold-500">R$ 180,00</span>
-                            <a href="https://wa.me/5519986054842?text=Quero agendar Volume Egípcio" class="text-xs text-coffee-800 underline decoration-gold-500">Agendar</a>
-                        </div>
-                    </div>
-                     <!-- Item -->
-                     <div class="p-6 flex justify-between items-center hover:bg-nude-50 transition">
-                        <div>
-                            <h4 class="font-bold text-coffee-900">Volume Híbrido</h4>
-                            <p class="text-xs text-gray-500">Mescla de técnicas</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="block font-bold text-lg text-gold-500">R$ 170,00</span>
-                            <a href="https://wa.me/5519986054842?text=Quero agendar Volume Híbrido" class="text-xs text-coffee-800 underline decoration-gold-500">Agendar</a>
-                        </div>
-                    </div>
-                     <!-- Item -->
-                     <div class="p-6 flex justify-between items-center hover:bg-nude-50 transition">
-                        <div>
-                            <h4 class="font-bold text-coffee-900">Design Feminino com Henna</h4>
-                            <p class="text-xs text-gray-500">Alinhamento completo</p>
-                        </div>
-                        <div class="text-right">
-                            <span class="block font-bold text-lg text-gold-500">R$ 45,00</span>
-                            <a href="https://wa.me/5519986054842?text=Quero agendar Design com Henna" class="text-xs text-coffee-800 underline decoration-gold-500">Agendar</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-6 bg-nude-100 text-center text-sm text-gray-500">
-                    * Valores sujeitos a alteração. Consulte para pacotes de manutenção.
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- 9. FAQ -->
-    <section class="py-20 bg-white">
+    <section class="py-16 lg:py-20 bg-white">
         <div class="max-w-3xl mx-auto px-4">
-            <h2 class="font-serif text-3xl font-bold text-coffee-900 text-center mb-10">Dúvidas Frequentes</h2>
+            <h2 class="font-serif text-3xl font-bold text-coffee-900 text-center mb-8 lg:mb-10">Dúvidas Frequentes</h2>
             
             <div class="space-y-4">
                 <!-- FAQ Item 1 -->
                 <div class="border border-nude-200 rounded-lg overflow-hidden">
                     <button class="w-full px-6 py-4 text-left bg-nude-50 hover:bg-nude-100 transition flex justify-between items-center focus:outline-none" onclick="toggleFAQ(this)">
-                        <span class="font-bold text-coffee-900">Dói aplicar cílios?</span>
+                        <span class="font-bold text-coffee-900 text-sm sm:text-base">Dói aplicar cílios?</span>
                         <i class="fas fa-chevron-down text-gold-500 transform transition-transform duration-300"></i>
                     </button>
-                    <div class="hidden px-6 py-4 text-gray-600 bg-white">
+                    <div class="hidden px-6 py-4 text-gray-600 bg-white text-sm sm:text-base">
                         Não! O procedimento é totalmente indolor e relaxante. Muitas clientes até dormem durante a aplicação.
                     </div>
                 </div>
@@ -586,10 +660,10 @@
                 <!-- FAQ Item 2 -->
                 <div class="border border-nude-200 rounded-lg overflow-hidden">
                     <button class="w-full px-6 py-4 text-left bg-nude-50 hover:bg-nude-100 transition flex justify-between items-center focus:outline-none" onclick="toggleFAQ(this)">
-                        <span class="font-bold text-coffee-900">Quanto tempo dura?</span>
+                        <span class="font-bold text-coffee-900 text-sm sm:text-base">Quanto tempo dura?</span>
                         <i class="fas fa-chevron-down text-gold-500 transform transition-transform duration-300"></i>
                     </button>
-                    <div class="hidden px-6 py-4 text-gray-600 bg-white">
+                    <div class="hidden px-6 py-4 text-gray-600 bg-white text-sm sm:text-base">
                         A extensão dura em média de 20 a 30 dias, dependendo dos cuidados e do ciclo natural de crescimento dos seus fios. As manutenções são indicadas a cada 15 ou 20 dias.
                     </div>
                 </div>
@@ -597,10 +671,10 @@
                 <!-- FAQ Item 3 -->
                 <div class="border border-nude-200 rounded-lg overflow-hidden">
                     <button class="w-full px-6 py-4 text-left bg-nude-50 hover:bg-nude-100 transition flex justify-between items-center focus:outline-none" onclick="toggleFAQ(this)">
-                        <span class="font-bold text-coffee-900">Posso molhar?</span>
+                        <span class="font-bold text-coffee-900 text-sm sm:text-base">Posso molhar?</span>
                         <i class="fas fa-chevron-down text-gold-500 transform transition-transform duration-300"></i>
                     </button>
-                    <div class="hidden px-6 py-4 text-gray-600 bg-white">
+                    <div class="hidden px-6 py-4 text-gray-600 bg-white text-sm sm:text-base">
                         Sim! Após as primeiras 24h de secagem da cola, você pode molhar normalmente. Inclusive, higienizar é essencial para a saúde dos fios.
                     </div>
                 </div>
@@ -608,10 +682,10 @@
                 <!-- FAQ Item 4 -->
                 <div class="border border-nude-200 rounded-lg overflow-hidden">
                     <button class="w-full px-6 py-4 text-left bg-nude-50 hover:bg-nude-100 transition flex justify-between items-center focus:outline-none" onclick="toggleFAQ(this)">
-                        <span class="font-bold text-coffee-900">Usam materiais hipoalergênicos?</span>
+                        <span class="font-bold text-coffee-900 text-sm sm:text-base">Usam materiais hipoalergênicos?</span>
                         <i class="fas fa-chevron-down text-gold-500 transform transition-transform duration-300"></i>
                     </button>
-                    <div class="hidden px-6 py-4 text-gray-600 bg-white">
+                    <div class="hidden px-6 py-4 text-gray-600 bg-white text-sm sm:text-base">
                         Sim, utilizamos colas e materiais de alta qualidade com registro na Anvisa, minimizando riscos de alergias.
                     </div>
                 </div>
@@ -620,12 +694,12 @@
     </section>
 
     <!-- 10. CTA FINAL -->
-    <section class="py-20 bg-cover bg-center relative bg-fixed" style="background-image: url('https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=2000&auto=format&fit=crop');">
+    <section class="py-16 lg:py-20 bg-cover bg-center relative bg-fixed" style="background-image: url('https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=2000&auto=format&fit=crop');">
         <div class="absolute inset-0 bg-coffee-900 bg-opacity-80"></div>
         <div class="relative max-w-4xl mx-auto px-4 text-center text-white" data-aos="zoom-in">
-            <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6">Pronta para transformar seu olhar?</h2>
-            <p class="text-xl text-gray-300 mb-10">Garanta seu horário e sinta-se ainda mais linda.</p>
-            <a href="https://wa.me/5519986054842" target="_blank" class="inline-block bg-gold-500 text-white font-bold py-4 px-10 rounded-full hover:bg-gold-400 transition transform hover:scale-105 shadow-lg border border-transparent hover:border-white">
+            <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Pronta para transformar seu olhar?</h2>
+            <p class="text-base sm:text-xl text-gray-300 mb-8 sm:mb-10">Garanta seu horário e sinta-se ainda mais linda.</p>
+            <a href="https://wa.me/5519986054842" target="_blank" class="inline-block bg-gold-500 text-white font-bold py-3 px-8 lg:py-4 lg:px-10 rounded-full hover:bg-gold-400 transition transform hover:scale-105 shadow-lg border border-transparent hover:border-white text-sm sm:text-base">
                 <i class="fab fa-whatsapp mr-2"></i> Agendar meu horário
             </a>
         </div>
@@ -634,8 +708,8 @@
     <!-- 11. LOCATION -->
     <section class="py-12 bg-nude-50">
         <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div>
-                <h3 class="font-serif text-2xl font-bold text-coffee-900 mb-4">Localização</h3>
+            <div class="text-center md:text-left">
+                <h3 class="font-serif text-2xl font-bold text-coffee-900 mb-4">Onde me encontrar</h3>
                 <p class="text-gray-600 mb-2"><i class="fas fa-map-marker-alt text-gold-500 mr-2"></i> Jardim Paulista</p>
                 <p class="text-gray-600 mb-6">Monte Mor – SP</p>
                 <p class="text-sm text-gray-500">Atendimento com hora marcada.</p>
@@ -731,6 +805,76 @@
                 icon.classList.add('rotate-180');
             }
         }
+
+        // --- SCRIPT DO SLIDER ANTES E DEPOIS ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const container = document.getElementById('comparison-slider');
+            const handle = document.getElementById('slider-handle');
+            const beforeWrapper = document.getElementById('before-wrapper');
+            const beforeImage = beforeWrapper.querySelector('.image-before');
+
+            // Variável para rastrear se está arrastando
+            let isDragging = false;
+
+            // Função para redimensionar a imagem interna
+            function resizeBeforeImage() {
+                // A imagem de dentro deve ter a mesma largura do container pai
+                // para garantir que a escala seja idêntica à imagem de fundo
+                const containerWidth = container.offsetWidth;
+                beforeImage.style.width = containerWidth + 'px';
+            }
+
+            // Chamar no carregamento e no redimensionamento da janela
+            // Pequeno delay para garantir que o CSS renderizou
+            setTimeout(resizeBeforeImage, 100);
+            window.addEventListener('resize', resizeBeforeImage);
+
+            // Eventos de Mouse
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                updateSliderPosition(e.clientX);
+            });
+            window.addEventListener('mouseup', () => isDragging = false);
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                updateSliderPosition(e.clientX);
+            });
+
+            // Eventos de Toque (Mobile)
+            container.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                updateSliderPosition(e.touches[0].clientX);
+            }, { passive: true }); // passive true para não bloquear o scroll se não previnir default
+            
+            window.addEventListener('touchend', () => isDragging = false);
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                
+                // Se o movimento for muito vertical, não impedir o scroll
+                // Mas se for horizontal (slider), atualizar.
+                // Aqui simplificamos atualizando sempre.
+                updateSliderPosition(e.touches[0].clientX);
+            }, { passive: true });
+
+            function updateSliderPosition(clientX) {
+                const rect = container.getBoundingClientRect();
+                let x = clientX - rect.left;
+                
+                // Limites (para não sair do container)
+                if (x < 0) x = 0;
+                if (x > rect.width) x = rect.width;
+
+                // Calcular porcentagem
+                const percentage = (x / rect.width) * 100;
+
+                // Atualizar Largura da imagem Antes e Posição da Alça
+                // requestAnimationFrame para performance suave
+                requestAnimationFrame(() => {
+                    beforeWrapper.style.width = percentage + "%";
+                    handle.style.left = percentage + "%";
+                });
+            }
+        });
     </script>
 </body>
 </html>
