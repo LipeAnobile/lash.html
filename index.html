@@ -501,29 +501,43 @@
                 <p class="mt-4 text-gray-600 text-sm lg:text-base">Confira a transformação no olhar das minhas clientes.</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Photo 1 -->
-                <div class="group relative h-64 sm:h-80 rounded-xl overflow-hidden shadow-lg" data-aos="flip-left">
-                    <img src="https://i.postimg.cc/3RZ2SXSZ/image.png" alt="Resultado Cílios" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition duration-300 flex items-end justify-center pb-6">
-                        <span class="text-white font-serif text-xl font-bold">Volume Brasileiro</span>
-                    </div>
-                </div>
-                <!-- Photo 2 -->
-                <div class="group relative h-64 sm:h-80 rounded-xl overflow-hidden shadow-lg" data-aos="flip-left" data-aos-delay="100">
-                    <img src="https://i.postimg.cc/yYm7PWKq/image.png" alt="Resultado Sobrancelhas" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition duration-300 flex items-end justify-center pb-6">
-                        <span class="text-white font-serif text-xl font-bold">Design + Henna</span>
-                    </div>
-                </div>
-                <!-- Photo 3 -->
-                <div class="group relative h-64 sm:h-80 rounded-xl overflow-hidden shadow-lg" data-aos="flip-left" data-aos-delay="200">
-                    <img src="https://i.postimg.cc/wTrLGTVP/image.png" alt="Resultado Foxy" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-70 transition duration-300 flex items-end justify-center pb-6">
-                        <span class="text-white font-serif text-xl font-bold">Efeito Foxy Eyes</span>
-                    </div>
-                </div>
-            </div>
+           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div onclick="openPortfolio('Volume Brasileiro', [
+        'https://i.postimg.cc/3RZ2SXSZ/image.png', 
+        'https://i.postimg.cc/yYm7PWKq/image.png', 
+        'https://i.postimg.cc/wTrLGTVP/image.png'
+    ])" class="group relative h-64 sm:h-80 rounded-xl overflow-hidden shadow-lg cursor-pointer" data-aos="flip-left">
+        <img src="https://i.postimg.cc/3RZ2SXSZ/image.png" alt="Resultado Cílios" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition duration-300 flex flex-col items-center justify-center pb-6">
+            <span class="text-white font-serif text-xl font-bold">Volume Brasileiro</span>
+            <span class="text-gold-500 text-sm mt-2">Clique para ver galeria</span>
+        </div>
+    </div>
+
+    <div onclick="openPortfolio('Design + Henna', [
+        'https://i.postimg.cc/yYm7PWKq/image.png', 
+        'SUA_IMAGEM_EXTRA_1.jpg', 
+        'SUA_IMAGEM_EXTRA_2.jpg'
+    ])" class="group relative h-64 sm:h-80 rounded-xl overflow-hidden shadow-lg cursor-pointer" data-aos="flip-left" data-aos-delay="100">
+        <img src="https://i.postimg.cc/yYm7PWKq/image.png" alt="Resultado Sobrancelhas" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition duration-300 flex flex-col items-center justify-center pb-6">
+            <span class="text-white font-serif text-xl font-bold">Design + Henna</span>
+            <span class="text-gold-500 text-sm mt-2">Clique para ver galeria</span>
+        </div>
+    </div>
+
+    <div onclick="openPortfolio('Efeito Foxy Eyes', [
+        'https://i.postimg.cc/wTrLGTVP/image.png', 
+        'SUA_IMAGEM_EXTRA_3.jpg', 
+        'SUA_IMAGEM_EXTRA_4.jpg'
+    ])" class="group relative h-64 sm:h-80 rounded-xl overflow-hidden shadow-lg cursor-pointer" data-aos="flip-left" data-aos-delay="200">
+        <img src="https://i.postimg.cc/wTrLGTVP/image.png" alt="Resultado Foxy" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition duration-300 flex flex-col items-center justify-center pb-6">
+            <span class="text-white font-serif text-xl font-bold">Efeito Foxy Eyes</span>
+            <span class="text-gold-500 text-sm mt-2">Clique para ver galeria</span>
+        </div>
+    </div>
+</div>
             <div class="text-center mt-10">
                 <a href="https://www.instagram.com/mikaely.lash/" target="_blank" class="insta-btn">
   <i class="fab fa-instagram"></i>
@@ -885,6 +899,59 @@
                 });
             }
         });
+
+        
     </script>
+
+    <dialog id="portfolio-modal" class="rounded-3xl p-0 backdrop:bg-black/80 w-11/12 max-w-4xl overflow-hidden border border-gold-500/20 shadow-2xl outline-none">
+    <div class="bg-white p-6 lg:p-10 relative">
+        <button onclick="document.getElementById('portfolio-modal').close()" 
+                class="absolute top-5 right-5 text-gray-400 hover:text-gold-500 transition-colors focus:outline-none text-2xl leading-none">
+            &times;
+        </button>
+        
+        <h3 id="modal-title" class="font-serif text-2xl lg:text-3xl text-coffee-900 mb-8 text-center font-bold"></h3>
+        
+        <div id="modal-gallery" class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <div class="h-64 lg:h-80 rounded-2xl overflow-hidden border border-nude-200 shadow-sm">
+                <img src="" class="modal-img w-full h-full object-cover">
+            </div>
+            <div class="h-64 lg:h-80 rounded-2xl overflow-hidden border border-nude-200 shadow-sm">
+                <img src="" class="modal-img w-full h-full object-cover">
+            </div>
+            <div class="h-64 lg:h-80 rounded-2xl overflow-hidden border border-nude-200 shadow-sm">
+                <img src="" class="modal-img w-full h-full object-cover">
+            </div>
+        </div>
+    </div>
+</dialog>
+
+<script>
+// Esta função PRECISA estar no seu arquivo para o erro sumir
+function openPortfolio(title, images) {
+    const modal = document.getElementById('portfolio-modal');
+    if (!modal) return; // Segurança caso o modal não exista
+    
+    document.getElementById('modal-title').innerText = title;
+    
+    const imgElements = modal.querySelectorAll('.modal-img');
+    
+    images.forEach((src, index) => {
+        if (imgElements[index]) {
+            imgElements[index].src = src;
+        }
+    });
+    
+    modal.showModal();
+}
+
+// Fecha ao clicar fora da caixa branca
+const modalElement = document.getElementById('portfolio-modal');
+modalElement.addEventListener('click', (e) => {
+    if (e.target === modalElement) modalElement.close();
+});
+</script>
+
 </body>
 </html>
+
