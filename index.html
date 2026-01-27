@@ -51,6 +51,52 @@
     </script>
 
     <style>
+
+                <style>
+        /* Bloqueio de scroll lateral global */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f0e8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c5a059;
+            border-radius: 5px;
+        }
+
+        /* Smooth Scroll Behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Utilitários */
+        .glass-nav {
+            background: rgba(251, 249, 246, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(224, 197, 171, 0.3);
+        }
+
+        /* Correção para AOS no Mobile */
+        [data-aos] {
+            pointer-events: none;
+        }
+        .aos-animate {
+            pointer-events: auto;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #c5a059 0%, #a68545 100%);
+            transition: all 0.3s ease;
+        }
+        
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
